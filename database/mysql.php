@@ -302,7 +302,7 @@
         public function startUpCheck(){
             $data = self::advancedSelect("SELECT COUNT(SCHEMA_NAME) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='IrcBot'");
             if($count == 0){
-                self::sqlQry();
+            //    self::sqlQry();
             }
             $resource = self::sqlQry("show tables from IrcBot like 'sets'");
             while($data[] = mysql_fetch_assoc($resource)){
