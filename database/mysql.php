@@ -305,6 +305,7 @@
             //    self::sqlQry();
             }
             $resource = self::sqlQry("show tables from IrcBot like 'sets'");
+            unset($data);
             while($data[] = mysql_fetch_assoc($resource)){
                 
             }
