@@ -4,6 +4,13 @@
      * class Database_Mysql
     */
     class Database_Mysql {
+        
+        /**
+         * @staticvar string $databaseName
+         * @access protected
+        */
+        protected static $database = "IrcBot";
+        
         /**
          * @staticvar resource (mysql) $sql
          * @access protected
@@ -46,7 +53,7 @@
             else {
                 self::$sql = mysql_connect("mysql.db","werring","TWWT");
             }
-            mysql_selectdb("irc_bot_2",self::$sql);
+            mysql_selectdb(self::$database,self::$sql);
             if(!self::$sql){
                 if(!self::$silent)
                     Irc_Format::log("MySQL ~ Error: " . mysql_error(),"ERROR");
@@ -291,6 +298,19 @@
             }
             $data["affectedRows"] = mysql_affected_rows();
             return $data;
+        }
+        public function startUpCheck(){
+            $data = self::advancedSelect("SELECT COUNT(SCHEMA_NAME) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='IrcBot'");
+            if($count == 0){
+                self::sqlQry();
+            }
+            $resource = self::sqlQry("show tables from IrcBot like 'sets'");
+            while($data[] = mysql_fetch_assoc($resource)){
+                
+            }
+            print_r($data);
+            Irc_Format::log(print_r($data,true),"DEBUG");
+            die("----" . PHP_EOL);
         }
     }
 ?>
