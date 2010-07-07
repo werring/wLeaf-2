@@ -309,7 +309,6 @@
             while($data[] = mysql_fetch_assoc($resource)){
                 
             }
-            print_r($data);
             Irc_Format::log(print_r($data,true),"DEBUG");
             die("----" . PHP_EOL);
         }
