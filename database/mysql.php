@@ -299,19 +299,5 @@
             $data["affectedRows"] = mysql_affected_rows();
             return $data;
         }
-        public function startUpCheck(){
-            $data = self::advancedSelect("SELECT COUNT(SCHEMA_NAME) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='IrcBot'");
-            if($count == 0){
-            //    self::sqlQry();
-            }
-            $resource = self::sqlQry("show tables from IrcBot like 'sets'");
-            unset($data);
-            while($data[] = mysql_fetch_assoc($resource)){
-                
-            }
-            
-            Irc_Format::log(var_export($data,true),"DEBUG");
-            die("----" . PHP_EOL);
-        }
     }
 ?>
