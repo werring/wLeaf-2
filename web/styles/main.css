@@ -1,0 +1,192 @@
+body{
+    font-size: 9pt;
+    overflow: hidden;
+    color: white;
+    background-color: black;
+}
+span {
+    display: block;
+    width: 99%;
+    max-width:99%;
+    white-space: pre-wrap;
+}
+a {
+    color: white;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+#account {
+    position:absolute;
+    top: 5px;
+    right: 5px;
+    height: 20px;
+    display: block;
+    text-align: right;
+    width: auto;
+}
+#activeState {
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    height: 20px;
+    display: block;
+    font-size: 11pt;
+}
+#logView {
+    position: absolute;
+    top: 10%;
+    left: 0px;
+    height: 88%;
+    width: 80%;
+    overflow-y: scroll;
+    padding-left: 1%;
+    font-family: monospace;
+    border: 1px solid #FFFFFF;
+    border-right: none;
+}
+
+#logOptions {
+    position: absolute;
+    top: 10%;
+    left: 80%;
+    height: 88%;
+    width: 18%;
+    padding-left: 1%;
+    border: 1px solid #FFFFFF;
+}
+
+#lockScroll {
+    display: block;
+    position: absolute;
+    right: 5%;
+    bottom: 5px;
+    width: auto;
+    text-align: right;
+    height: 20px;
+    cursor: pointer;
+}
+
+#lockScroll:hover {
+    text-decoration: underline;
+}
+
+#menu {
+    position:absolute;
+    top: 25px;
+    right: 20px;
+    height: 20px;
+    display: block;
+    text-align: right;
+    width: auto;
+    cursor: pointer;
+}
+#menu span:hover {
+    text-decoration: underline;
+}
+
+#menu ul {
+    display: none;
+    list-style-type: none;
+    text-decoration: none !important;
+}
+
+#menu ul li a:hover{
+    text-decoration: underline !important;
+    
+}
+
+#menu ul li {
+    display: inline;
+    margin-left: 25px;
+}
+
+
+.input {
+    color: #AAAAAA;
+}
+
+.output {
+    color: #DDDDDD;
+}
+
+.error {
+    color: red;
+    background-color:#820000; 
+    border-color: red;
+    border-style: solid;
+    border-width: 1px;
+    padding: 1px;
+}
+
+.debug {
+    color: #33C8FF;
+    background-color: #000082;
+    border-color: #33C8FF;
+    border-style: solid;
+    border-width: 1px;
+    padding: 1px;
+}
+
+.notice {
+    color: yellow;
+    background-color:#7B7B00; 
+    border-color: yellow;
+    border-style: solid;
+    border-width: 1px;
+    padding: 1px;
+}
+
+#profile {
+    position: absolute;
+    width: 300px;
+    height: 130px;
+    left: 50%;
+    margin-left:-150px;
+    top: 50%;
+    margin-top: -65px;
+}
+
+#fieldnames{
+    float: left;
+    width: auto;
+}
+#fields {
+    float: right;
+    width: auto;
+}
+
+#fieldnames span{
+    display: block;
+    height: 30px;
+}
+#fields span{
+    display: block;
+    height: 30px;
+}
+
+#profileError{
+    text-align: center;
+    color: red;
+    display: block;
+    width: auto;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 5px;
+    font-weight: bold;
+}
+
+#profileSucces{
+    text-align: center;
+    color: lime;
+    display: block;
+    width: auto;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 5px;
+    font-weight: bold;
+}
+
