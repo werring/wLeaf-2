@@ -48,7 +48,20 @@ Database_Mysql::sqlQry('CREATE TABLE `IrcBot`.`commands`
 Database_Mysql::clear('commands');
 
 foreach(scandir('../irc/commands') as $command){
-    if(is_dir('../irc/commands' . $command) || $command == '.' || $command == '..'){
+    if(is_dir('../irc/commands' . $command)){
+        $dir = $command;
+        foreach(scandir('../irc/commands' . $dir) as $command){
+            $strpos = strripos($command,'.');
+            if($strpos !== false){
+                $command = substr($command,0,$strpos);
+            }
+            $insert = array();
+            $insert['bind'] = $command;
+            $insert['file'] = $dir . "." . $command;
+            echo Database_Mysql::insert('commands',$insert,true) . PHP_EOL;
+        }
+        continue;
+    } elseif($command == '.' || $command == '..'){
         continue;
     }
     
