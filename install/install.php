@@ -51,7 +51,8 @@ foreach(scandir('../irc/commands') as $command){
     if(is_dir('../irc/commands' . $command) || $command == '.' || $command == '..'){
         continue;
     }
-    $strpos = stripos($command,'.');
+    
+    $strpos = strripos($command,'.');
     if($strpos !== false){
         $command = substr($command,0,$strpos);
     }
