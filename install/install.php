@@ -48,7 +48,7 @@ Database_Mysql::sqlQry('CREATE TABLE `IrcBot`.`commands`
 Database_Mysql::clear('commands');
 
 foreach(scandir('../irc/commands') as $command){
-    if(is_dir('../irc/commands' . $command)){
+    if(is_dir('../irc/commands/' . $command) && !($command == '.' || $command == '..')){
         $dir = $command;
         foreach(scandir('../irc/commands' . $dir) as $command){
             $strpos = strripos($command,'.');
