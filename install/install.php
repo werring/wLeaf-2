@@ -2,7 +2,9 @@
 require_once("config.php");
 require_once("../database/mysql.php");
 new Database_Mysql(true,false);
+echo 'Creating database IrcBot' . PHP_EOL;
 Database_Mysql::sqlQry('CREATE DATABASE IF NOT EXISTS `IrcBot`');
+echo 'Creating table \'sets\'' . PHP_EOL;
 Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `sets`
                             (
                                 `id` int(10) unsigned NOT NULL auto_increment,
@@ -14,12 +16,13 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `sets`
                             )'
                         );
 Database_Mysql::clear('sets');
-foreach($setting as $set => $value){
+foreach($settings as $set => $value){
     $insert['setting'] = $set;
     $insert['value'] = $value;
     Database_Mysql::insert('sets',$insert);
     unset($insert);
 }
+echo 'Creating table \'access\'' . PHP_EOL;
 Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `access`
                             (
                                 `id` int(10) unsigned NOT NULL auto_increment,
@@ -34,13 +37,14 @@ $master['access'] = 500;
 Database_Mysql::clear('access');
 Database_Mysql::insert("access",$master);
 
-Database_Mysql::sqlQry('CREATE TABLE `IrcBot`.`commands`
+echo 'Creating table \'commands\'' . PHP_EOL;
+Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`commands`
                         (
                             `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-                            `bind` VARCHAR( 64 ) NOT NULL ,
-                            `file` VARCHAR( 128 ) NOT NULL ,
+                            `command` VARCHAR( 64 ) NOT NULL ,
+                            `bind` VARCHAR( 128 ) NOT NULL ,
                             UNIQUE (
-                                `bind`
+                                `command`
                             )
                         )'
                       );
@@ -48,18 +52,24 @@ Database_Mysql::sqlQry('CREATE TABLE `IrcBot`.`commands`
 Database_Mysql::clear('commands');
 
 foreach(scandir('../irc/commands') as $command){
-    if(is_dir('../irc/commands/' . $command) && !($command == '.' || $command == '..')){
+    if(is_dir('../irc/commands/' . $command)){
         $dir = $command;
-        foreach(scandir('../irc/commands' . $dir) as $command){
+        if($dir == '.' || $dir == '..'){
+            continue;
+        }
+        foreach(scandir('../irc/commands/' . $dir) as $command){
+            if($command == '.' || $command == '..'){
+                continue;
+            }
             $strpos = strripos($command,'.');
             if($strpos !== false){
                 $command = substr($command,0,$strpos);
             }
             $insert = array();
-            $insert['bind'] = $command;
-            $insert['file'] = $dir . "." . $command;
-            echo Database_Mysql::insert('commands',$insert,true) . PHP_EOL;
-        }
+            $insert['command'] = $command;
+            $insert['bind'] = $dir . "." . $command;
+            Database_Mysql::insert('commands',$insert);
+            printf("Binding %s to %s" . PHP_EOL,$insert['bind'],$insert['command']);        }
         continue;
     } elseif($command == '.' || $command == '..'){
         continue;
@@ -70,8 +80,20 @@ foreach(scandir('../irc/commands') as $command){
         $command = substr($command,0,$strpos);
     }
     $insert = array();
-    $insert['bind'] = $insert['file'] = $command;
-    echo Database_Mysql::insert('commands',$insert,true) . PHP_EOL;
+    $insert['bind'] = $insert['command'] = $command;
+    printf("Binding %s to %s" . PHP_EOL,$insert['bind'],$insert['command']);
+    Database_Mysql::insert('commands',$insert);
 }
+
+echo 'Creating table \'IrcUserData\'' . PHP_EOL;
+Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`IrcUserData` ( 
+                            `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+                            `ident` VARCHAR( 50 ) NOT NULL ,
+                            `host` VARCHAR( 50 ) NOT NULL ,
+                            `auth` VARCHAR( 50 ) NOT NULL
+                        )
+                        ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci');
+
+
 
 ?>
