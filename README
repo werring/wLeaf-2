@@ -25,5 +25,5 @@ Overview
 ----------------
 3. Modifications
 ----------------
- - To add commands place them in ./irc/commands/ (preferably without .php)
+ - To add commands place them in ./irc/commands/
  - Then run ./install/installcommands.php
