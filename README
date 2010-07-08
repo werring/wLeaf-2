@@ -5,24 +5,25 @@ Made by Werring (Werring@treefamily.nl)
 Overview
 --------
 
-1. Configuration
-2. Installation
-3. Start up
-4. Modifications
+1. Installation
+2. Start up
+3. Modifications
 
-----------------
-1. Configuration
-----------------
- - Open install.php with your favorite texteditor
- - 
 ---------------
-2. Installation
+1. Installation
 ---------------
+ - Open install/config.php with your favorite texteditor
+ - Edit the settings and your master account data
+ - Save the file
+ - type php ./install/install.php in your shell
 
 -----------
-3. Start up
+2. Start up
 -----------
-
+ - type ./start.sh
+ 
 ----------------
-4. Modifications
-----------------	
+3. Modifications
+----------------
+ - To add commands place them in ./irc/commands/ (preferably without .php)
+ - Then run ./install/installcommands.php
