@@ -1,6 +1,6 @@
 <?php
 require_once("config.php");
-require_once("database/mysql.php");
+require_once("../database/mysql.php");
 new Database_Mysql(true,false);
 Database_Mysql::sqlQry('CREATE DATABASE IF NOT EXISTS `IrcBot`');
 Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `sets`
@@ -47,13 +47,13 @@ Database_Mysql::sqlQry('CREATE TABLE `IrcBot`.`commands`
 
 Database_Mysql::clear('commands');
 
-foreach(scandir('../irc/commandfiles') as $command){
-    if(is_dir('../irc/commandfiles' . $command)){
+foreach(scandir('../irc/commands') as $command){
+    if(is_dir('../irc/commands' . $command) || $command == '.' || $command == '..'){
         continue;
     }
     $strpos = stripos($command,'.');
     if($strpos !== false){
-        $command = substr($command,0,$strpos-1);
+        $command = substr($command,0,$strpos);
     }
     $insert = array();
     $insert['bind'] = $insert['file'] = $command;
