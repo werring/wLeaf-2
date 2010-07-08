@@ -54,7 +54,7 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`commands`
                       );
 Database_Mysql::clear('commands');
 
-foreach(scandir('../irc/commands') as $command){
+foreach(scandir('../irc/commands/') as $command){
     if(is_dir('../irc/commands/' . $command)){
         $dir = $command;
         if($dir == '.' || $dir == '..'){
@@ -97,4 +97,5 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`IrcUserData` (
                             `auth` VARCHAR( 50 ) NOT NULL
                         )
                         ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci');
-?>
+
+echo "Installed";?>
