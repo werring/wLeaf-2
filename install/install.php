@@ -4,8 +4,10 @@ require_once("../database/mysql.php");
 new Database_Mysql(true,false);
 echo 'Creating database IrcBot' . PHP_EOL;
 Database_Mysql::sqlQry('CREATE DATABASE IF NOT EXISTS `IrcBot`');
+sleep(1);
 echo 'Creating table \'sets\'' . PHP_EOL;
-Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `sets`
+Database_Mysql::sqlQry('use IrcBot');
+Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`sets`
                             (
                                 `id` int(10) unsigned NOT NULL auto_increment,
                                 `setting` varchar(255) NOT NULL,
@@ -22,8 +24,9 @@ foreach($settings as $set => $value){
     Database_Mysql::insert('sets',$insert);
     unset($insert);
 }
+sleep(1);
 echo 'Creating table \'access\'' . PHP_EOL;
-Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `access`
+Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`access`
                             (
                                 `id` int(10) unsigned NOT NULL auto_increment,
                                 `account` varchar(255) NOT NULL,
@@ -37,6 +40,7 @@ $master['access'] = 500;
 Database_Mysql::clear('access');
 Database_Mysql::insert("access",$master);
 
+sleep(1);
 echo 'Creating table \'commands\'' . PHP_EOL;
 Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`commands`
                         (
@@ -48,7 +52,6 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`commands`
                             )
                         )'
                       );
-
 Database_Mysql::clear('commands');
 
 foreach(scandir('../irc/commands') as $command){
@@ -85,6 +88,7 @@ foreach(scandir('../irc/commands') as $command){
     Database_Mysql::insert('commands',$insert);
 }
 
+sleep(1);
 echo 'Creating table \'IrcUserData\'' . PHP_EOL;
 Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`IrcUserData` ( 
                             `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -93,7 +97,4 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`IrcUserData` (
                             `auth` VARCHAR( 50 ) NOT NULL
                         )
                         ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci');
-
-
-
 ?>
