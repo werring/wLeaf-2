@@ -5,8 +5,8 @@ new Database_Mysql(true,false);
 echo 'Creating database IrcBot' . PHP_EOL;
 Database_Mysql::sqlQry('CREATE DATABASE IF NOT EXISTS `IrcBot`');
 sleep(1);
-echo 'Creating table \'sets\'' . PHP_EOL;
 Database_Mysql::sqlQry('use IrcBot');
+echo 'Creating table \'sets\'' . PHP_EOL;
 Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`sets`
                             (
                                 `id` int(10) unsigned NOT NULL auto_increment,
@@ -47,6 +47,7 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`commands`
                             `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
                             `command` VARCHAR( 64 ) NOT NULL ,
                             `bind` VARCHAR( 128 ) NOT NULL ,
+                            `access` INT NOT NULL ,
                             UNIQUE (
                                 `command`
                             )
@@ -72,7 +73,8 @@ foreach(scandir('../irc/commands/') as $command){
             $insert['command'] = $command;
             $insert['bind'] = $dir . "." . $command;
             Database_Mysql::insert('commands',$insert);
-            printf("Binding %s to %s" . PHP_EOL,$insert['bind'],$insert['command']);        }
+            printf("Binding %s to %s" . PHP_EOL,$insert['bind'],$insert['command']);
+        }
         continue;
     } elseif($command == '.' || $command == '..'){
         continue;
@@ -98,4 +100,4 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`IrcUserData` (
                         )
                         ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci');
 
-echo "Installed";?>
+echo "Installed" . PHP_EOL;
