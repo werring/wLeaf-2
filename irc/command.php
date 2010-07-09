@@ -47,10 +47,8 @@ class Irc_Command  {
             self::$commandError = '';
             return false;
         }
-        var_dump($data);
         $bind = $data[0]['bind'];
         $file = "irc/commands/" . str_replace('.','/',$bind) . ".php";
-        Irc_Format::log($file . " " . $bind,"DEBUG");
         if(file_exists($file)){
             include($file);
             return true;
@@ -87,11 +85,11 @@ class Irc_Command  {
             if(!$executed && self::$commandError = ''){
                 Irc_Format::log(self::$commandError,'ERROR');
             } else {
-                Irc_Format::log("Command " . $closest . " done","NOTICE");
+                Irc_Format::log("Command " . $closest . " executed","NOTICE");
             }
-        } elseif($percent >= 75) {
+        } elseif($percent >= 50) {
             if(Znc_User::getAccessFromHost(Irc_User::host(),Irc_User::ident()) > 200){
-                Irc_Socket::noticeNick("Command not found, but perhaps you mean " . $closest . "?");                
+                Irc_Socket::noticeNick("Command not found, but maybe you mean " . $closest . "? (".$percent."% match)");                
             }   
         }
     }
