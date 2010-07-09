@@ -13,39 +13,39 @@ class Auth_User  {
      * @access public
      * @return boolean success
     */
-    public function add($host,$auth,$nick = null){
+    public function add($host,$auth,$ident,$nick = null){
         $requestedData[] = "auth";
         
-        $qry = "SELECT auth,hostmask FROM auth WHERE `hostmask`='".trim($host) . "'";
-        $result = Database_Mysql::sqlQry($qry);
-        if($result){
-            $old = mysql_fetch_array($result);
-            $oldAuth = $old[0];
-            $oldHost = $old[1];
+        $fields[]          = "auth";
+        $fields[]          = "hostmask";
+        $fields[]          = "ident";
+        $where['hostmask'] = trim($host);
+        $where['ident']    = trim($ident);
+        $result = Database_Mysql::select('IrcUserData',$fields,$where);
+        if($result['affectedRows'] != 0){
+            $oldAuth  = $result[0]['auth'];
+            $oldHost  = $result[0]['host'];
+            $oldIdent = $result[0]['ident'];
             switch($host){
                 case "user.znc.treefamily.nl":
-                    $data["hostmask"] = $host;
-                    $data["auth"] = "$user$";
+                    $data['ident'] = $ident;
+                    $data["host"] = $host;
+                    $data["auth"] = '$user$';
                     $data["time"] = time();
                     Database_Mysql::insert("auth",$data);
                     return true;
                 break;
                 case "staff.znc.treefamily.nl":   
-                    $data["hostmask"] = $host;
-                    $data["auth"] = "$staff$";
+                    $data['ident'] = $ident;
+                    $data["host"] = $host;
+                    $data["auth"] = '$staff$';
                     $data["time"] = time();
                     Database_Mysql::insert("auth",$data);
                     return true;            
                 break;
                 case (strlen($oldHost) > 0):
-                    if($auth == $oldAuth){
+                    if($auth == $oldAuth && $ident == $oldIdent){
                         return true;
-                    } else {
-                        $table = "auth";
-                        $data["auth"] = "$multipleAuths$";
-                        $where["hostmask"] = $host;
-                        Database_Mysql::update($table,$data,$where);
-                        return false;
                     }
                 break;
                 default:

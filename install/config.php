@@ -5,7 +5,7 @@
  $settings['realname'] = 'TreeZNC admin bot';     //realname 
  $settings['server']   = 'user.znc.treefamily.nl';//server
  $settings['port']     = '6667';                  //serverport
- $settings['password'] = 'wLeaf:wLeaf';           //serverpass
+ $settings['password'] = 'wLeaf:tree';            //serverpass
  $settings['cmdchar']  = ',';                     //command prefix
  $settings['mainChan'] = '#tree';                 //main channel
  $settings['teamChan'] = '#tree-admin';           //team channel

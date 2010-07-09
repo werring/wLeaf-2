@@ -16,13 +16,8 @@ class WleafConfig {
             $data = Database_Mysql::select($table,$select);
             foreach($data as $key=>$value){
                 if(is_numeric($key)){
-                    self::$settings[$value["name"]] = $value["value"];
+                    self::$settings[$value["setting"]] = $value["value"];
                 }
-            }
-            self::$settings = array();
-            $result = database_mysql::sqlQry("select * from sets");
-            while($output = mysql_fetch_assoc($result)){
-                self::$settings[$output["name"]] = $output["value"];
             }
             Irc_Format::log("Configuration ~ Done");
             self::$settings["startupTime"] = time();

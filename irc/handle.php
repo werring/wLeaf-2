@@ -26,10 +26,16 @@ class Irc_Handle {
     protected static $whoisAuth;
     
     /**
-     * @staticvar string authname of whoised user
+     * @staticvar string nick of whoised user
      * @access protected
     */
     protected static $whoisNick;
+    
+    /**
+     * @staticvar string ident of whoised user
+     * @access protected
+    */
+    protected static $whoisIdent;
     
     
     
@@ -170,14 +176,16 @@ class Irc_Handle {
 	    case 311:
 		self::$whois = true;
 		self::$whoisHost = Irc_Socket::$eLine[5];
+		self::$whoisIdent = Irc_Socket::$eLine[4];
 	    break;
 	    case 330:
 		self::$whoisAuth = Irc_Socket::$eLine[4];
 	    case 318:
-		Auth_User::add(self::$whoisHost,self::$whoisAuth);
+		Auth_User::add(self::$whoisHost,self::$whoisAuth,self::$whoisIdent);
 		self::$whois = false;
 		self::$whoisAuth=null;
 		self::$whoisHost=null;
+		self::$whoisIdent=null;
 	    break;
         }
     }

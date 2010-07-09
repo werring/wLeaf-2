@@ -44,12 +44,13 @@ class Irc_Socket {
                 self::$reconnection = false;
                 self::$connected = DISCONNECTED;
             }
-            if(!socket_bind(self::$socket,WleafConfig::getConf("hostname"))) {
-                Irc_Format::log(" Irc Connection ~ @2 " . socket_strerror(socket_last_error(self::$socket)));
+            if(!socket_bind(self::$socket,WleafConfig::getConf("bindHost"))) {
+                
+                Irc_Format::log(var_export(WleafConfig::getConf("bindHost"),true) . " Irc Connection ~ @2 " . socket_strerror(socket_last_error(self::$socket)));
                 self::$reconnection = false;
                 self::$connected = DISCONNECTED;
             }
-            if(!socket_connect(self::$socket,WleafConfig::getConf("server"),WleafConfig::getConf("poort"))) {
+            if(!socket_connect(self::$socket,WleafConfig::getConf("server"),WleafConfig::getConf("port"))) {
                 Irc_Format::log("Irc Connection ~ @3 " . socket_strerror(socket_last_error(self::$socket)) );
                 self::$connected = DISCONNECTED;
             }
