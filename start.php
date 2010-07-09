@@ -29,7 +29,6 @@ Irc_Format::log("Starting wLeaf v2.0.0");
 do {
     Irc_Format::log("init database");
     $sql = new Database_Mysql();
-    $sql->startupCheck();
     $sql->clear("auth");
     $sql->clear("nick");
     Irc_Format::log("init configuration");
