@@ -193,7 +193,6 @@ class Irc_Handle {
     protected function text(){
 	$command = Irc_Format::removeColon(Irc_Socket::$eLine[3]);
 	Irc_Command::$params = null;
-	Irc_Format::log(WleafConfig::getConf("cmdchar"),"DEBUG");
 	if(WleafConfig::getConf("cmdchar") == substr($command,0,1)){
 	    foreach(Irc_Socket::$eLine as $key => $value){
 		if($key <= 3){
