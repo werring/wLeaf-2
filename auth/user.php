@@ -51,7 +51,6 @@ class Auth_User  {
                     }
                 break;
                 default:
-                    echo "inserting" . PHP_EOL;
                     $data['ident'] = $ident;
                     $data["host"] = $host;
                     $data["auth"] = $auth;
