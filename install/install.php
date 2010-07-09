@@ -72,6 +72,7 @@ foreach(scandir('../irc/commands/') as $command){
             $insert = array();
             $insert['command'] = $command;
             $insert['bind'] = $dir . "." . $command;
+            $insert['access'] = 300;
             Database_Mysql::insert('commands',$insert);
             printf("Binding %s to %s" . PHP_EOL,$insert['bind'],$insert['command']);
         }
