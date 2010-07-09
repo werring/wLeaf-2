@@ -82,7 +82,15 @@ class Irc_Socket {
         Irc_Format::log($text,"INPUT");
 	socket_write(self::$socket, $text.PHP_EOL);
     }
-    
+    /**
+     * Sends a Notice to Irc_User::nick()
+     *
+     * @access public
+     * @param string $text notices Irc_User::nick()
+    */
+    public function noticeNick($text){
+        self::write("NOTICE " . Irc_User::nick() . " :" . $text);
+    }    
     /**
      * closes the IRC connection
      *
