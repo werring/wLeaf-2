@@ -57,15 +57,37 @@ class Irc_Command  {
     }
 
     public function handleCommand($command,$params=null){
-        $code = self::getCommandCode($command);
-        if($code){
+        $input = $command;
+        
+        
+        $data = Database_Mysql::select("commands",array("command"));
+        foreach ($data as $key => $value){
+            $data[$key] = $value['command'];
+        }
+        
+        $shortest = -1;
+        foreach ($data as $word) {
+        
+            $lev = levenshtein($input, $word);
+        
+            if ($lev == 0) {
+                $closest = $word;
+                $shortest = 0;
+                break;
+            }
+            if ($lev <= $shortest || $shortest < 0) {
+                $closest  = $word;
+                $shortest = $lev;
+            }
+        }
+        if ($shortest == 0) {
             self::$params = $params;
-            eval($code);
-        } else {
-            if($command == "quit" && Irc_User::ident() == "Werring"){
-                Irc_Socket::close();
-                }
-            self::handleError("Command not found (" . $command . ")",false);
+            $executed = self::execCommand($closest);
+            
+        } elseif($shortest <= 3) {
+            if(Znc_User::getAccessFromHost(Irc_User::host()) > 200){
+                Irc_Socket::write("NOTICE " . Irc_User::nick() . " :Command not found did you mean " . $closest);                
+            }
         }
     }
     

@@ -113,5 +113,27 @@ class Irc_Format {
         }
         return $return;
     }
+    
+    public function closest_word($input, $words, &$percent = null) {
+        $shortest = -1;
+        foreach ($words as $word) {
+          $lev = levenshtein($input, $word);
+    
+          if ($lev == 0) {
+            $closest = $word;
+            $shortest = 0;
+            break;
+          }
+    
+          if ($lev <= $shortest || $shortest < 0) {
+            $closest  = $word;
+            $shortest = $lev;
+          }
+        }
+
+        $percent = 1 - levenshtein($input, $closest) / max(strlen($input), strlen($closest));
+
+        return $closest;
+    }
 }
 ?>
