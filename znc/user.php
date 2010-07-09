@@ -55,7 +55,6 @@ class Znc_User  {
         $query.= "INNER JOIN access ON IrcUserData.auth = access.auth" . PHP_EOL;
         $query.= "WHERE `host` LIKE '" . $host . "' AND `ident` LIKE '".$ident."'" . PHP_EOL;
         $data = Database_Mysql::advancedSelect($query);
-        var_dump($data);
         if($data)
             return $data[0]["access"];
         else
