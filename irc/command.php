@@ -38,24 +38,26 @@ class Irc_Command  {
         self::$commandError = null;
     $query =    "SELECT commands.bind
                 FROM `commands`
-                JOIN accounts ON commands.access <= accounts.privileges
-                JOIN auth ON accounts.auth = auth.auth
-                WHERE auth.hostmask='".Irc_User::host()."' AND 
+                JOIN access ON commands.access <= access.access
+                JOIN IrcUserData ON IrcUserData.auth = access.auth
+                WHERE IrcUserData.host='".Irc_User::host()."' AND IrcUserData.ident='".Irc_User::ident()."' AND
                 commands.command='".$command."'";
         $data = Database_Mysql::advancedSelect($query);
         if($data["affectedRows"]== 0){
             self::$commandError = '';
             return false;
         }
+        var_dump($data);
         $bind = $data[0]['bind'];
         $file = "irc/commands/" . str_replace('.','/',$bind) . ".php";
+        Irc_Format::log($file . " " . $bind,"DEBUG");
         if(file_exists($file)){
             include($file);
+            return true;
         } else {
             self::$commandError = 'CommandFile not found';
             return false;
         }
-        return true;
     }
 
     protected function getCommandHelp($command){
@@ -84,9 +86,11 @@ class Irc_Command  {
             $executed = self::execCommand($closest);
             if(!$executed && self::$commandError = ''){
                 Irc_Format::log(self::$commandError,'ERROR');
+            } else {
+                Irc_Format::log("Command " . $closest . " done","NOTICE");
             }
         } elseif($percent >= 75) {
-            if(Znc_User::getAccessFromHost(Irc_User::host()) > 200){
+            if(Znc_User::getAccessFromHost(Irc_User::host(),Irc_User::ident()) > 200){
                 Irc_Socket::noticeNick("Command not found, but perhaps you mean " . $closest . "?");                
             }   
         }

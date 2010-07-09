@@ -1,9 +1,7 @@
 <?php
-
 /*
  * class Auth_User
  */
-
 class Auth_User  {
     /**
      * adds $auth & $host to the table "auth"
@@ -13,46 +11,51 @@ class Auth_User  {
      * @access public
      * @return boolean success
     */
-    public function add($host,$auth,$ident,$nick = null){
-        $requestedData[] = "auth";
-        
+    public function add($host,$auth,$ident,$nick = null){        
         $fields[]          = "auth";
-        $fields[]          = "hostmask";
+        $fields[]          = "host";
         $fields[]          = "ident";
-        $where['hostmask'] = trim($host);
+        $where['host'] = trim($host);
         $where['ident']    = trim($ident);
         $result = Database_Mysql::select('IrcUserData',$fields,$where);
-        if($result['affectedRows'] != 0){
-            $oldAuth  = $result[0]['auth'];
-            $oldHost  = $result[0]['host'];
-            $oldIdent = $result[0]['ident'];
+        if($result['affectedRows'] != -1){
+            if(isset($result[0])){
+                $oldAuth  = $result[0]['auth'];
+                $oldHost  = $result[0]['host'];
+                $oldIdent = $result[0]['ident'];
+            }
             switch($host){
                 case "user.znc.treefamily.nl":
                     $data['ident'] = $ident;
                     $data["host"] = $host;
                     $data["auth"] = '$user$';
-                    $data["time"] = time();
-                    Database_Mysql::insert("auth",$data);
+                    Database_Mysql::insert("IrcUserData",$data);
                     return true;
                 break;
                 case "staff.znc.treefamily.nl":   
                     $data['ident'] = $ident;
                     $data["host"] = $host;
                     $data["auth"] = '$staff$';
-                    $data["time"] = time();
-                    Database_Mysql::insert("auth",$data);
+                    Database_Mysql::insert("IrcUserData",$data);
                     return true;            
                 break;
                 case (strlen($oldHost) > 0):
                     if($auth == $oldAuth && $ident == $oldIdent){
                         return true;
+                    } else {
+                        $data['ident'] = $ident;
+                        $data["host"] = $host;
+                        $data["auth"] = $auth;
+                        Database_Mysql::insert("IrcUserData",$data);
+                    return true;
                     }
                 break;
                 default:
-                    $data["hostmask"] = $host;
+                    echo "inserting" . PHP_EOL;
+                    $data['ident'] = $ident;
+                    $data["host"] = $host;
                     $data["auth"] = $auth;
-                    $data["time"] = time();
-                    Database_Mysql::insert("auth",$data);
+                    Database_Mysql::insert("IrcUserData",$data);
                     return true;
                 break;
             }
@@ -66,12 +69,14 @@ class Auth_User  {
      *
      * @access public
      * @param string $host hostname
+     * @param string $ident ident
      * @return string authname
     */
-    public function get($host){
-        $info["hostmask"] = $host;
+    public function get($host,$ident){
+        $info["host"] = $host;
+        $info['ident']= $ident;
         $fields[] = "auth";
-        $data = Database_Mysql::select("auth",$fields,$info,1);
+        $data = Database_Mysql::select("IrcUserData",$fields,$info,1);
         if(isset($data["auth"])){
             return $data["auth"];
         } else {
@@ -84,11 +89,13 @@ class Auth_User  {
      *
      * @access public
      * @param string $host hostname
+     * @param string $ident ident
      * @return boolean succes
     */
-    public function delete($host){
-        $info["hostmask"] = $host;
-        $data = Database_Mysql::remove("auth",$info);
+    public function delete($host,$ident){
+        $info["host"] = $host;
+        $info["ident"] = $ident;
+        $data = Database_Mysql::remove("IrcUserData",$info);
         if(1==$data["affectedRows"]){
             return true;
         } else {

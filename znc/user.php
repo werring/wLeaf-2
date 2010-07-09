@@ -1,8 +1,6 @@
 <?php
 
 class Znc_User  {
-
-
     /**
      * getAccountFromHost
      *
@@ -12,11 +10,11 @@ class Znc_User  {
      * @param string $host Hostname
      * @return String/Boolean Boolean if false, else an String with the accountname
     */
-    public function getAccountFromHost($host){
-        $query = "SELECT accounts.account" . PHP_EOL;
-        $query.= "FROM auth" . PHP_EOL;
-        $query.= "INNER JOIN accounts ON auth.auth = accounts.auth" . PHP_EOL;
-        $query.= "WHERE `hostmask` LIKE '" . $host . "'" . PHP_EOL;
+    public function getAccountFromHost($host,$ident){
+        $query = "SELECT access.account" . PHP_EOL;
+        $query.= "FROM IrcUserData" . PHP_EOL;
+        $query.= "INNER JOIN access ON IrcUserData.auth = access.auth" . PHP_EOL;
+        $query.= "WHERE `host` LIKE '" . $host . "' AND `ident` LIKE '".$ident."'" . PHP_EOL;
         $data = Database_Mysql::advancedSelect($query);
         if($data)
             return $data[0]["account"];
@@ -33,7 +31,7 @@ class Znc_User  {
      * @return String/Boolean Boolean if false, else an String with the accountname
     */  
     public function getAccountFromAuth($auth){
-        $table = "accounts";
+        $table = "access";
         $fields[] = "account";
         $where["auth"] = $auth;
         $data = Database_Mysql::select($table,$fields,$where);
@@ -51,14 +49,15 @@ class Znc_User  {
      * @param string $host Hostname
      * @return String/Boolean Boolean if false, else an String with the accesslevel (numeric)
     */
-    public function getAccessFromHost($host){
-        $query = "SELECT accounts.privileges" . PHP_EOL;
-        $query.= "FROM auth" . PHP_EOL;
-        $query.= "INNER JOIN accounts ON auth.auth = accounts.auth" . PHP_EOL;
-        $query.= "WHERE `hostmask` LIKE '" . $host . "'" . PHP_EOL;
+    public function getAccessFromHost($host,$ident){
+        $query = "SELECT access.access" . PHP_EOL;
+        $query.= "FROM IrcUserData" . PHP_EOL;
+        $query.= "INNER JOIN access ON IrcUserData.auth = access.auth" . PHP_EOL;
+        $query.= "WHERE `host` LIKE '" . $host . "' AND `ident` LIKE '".$ident."'" . PHP_EOL;
         $data = Database_Mysql::advancedSelect($query);
+        var_dump($data);
         if($data)
-            return $data[0]["privileges"];
+            return $data[0]["access"];
         else
             return false;
     }
@@ -72,12 +71,12 @@ class Znc_User  {
     * @return String/Boolean Boolean if false, else an String with the accesslevel (numeric)
    */
     public function getAccessFromAuth($auth){
-        $table = "accounts";
-        $fields[] = "privileges";
+        $table = "access";
+        $fields[] = "access";
         $where["auth"] = $auth;
         $data = Database_Mysql::select($table,$fields,$where);
         if($data)
-            return $data[0]["privileges"];
+            return $data[0]["access"];
         else
             return false;
     }
@@ -91,12 +90,12 @@ class Znc_User  {
     * @return String/Boolean Boolean if false, else an String with the accesslevel
    */
     public function getAccessFromAccount($account){
-        $table = "accounts";
-        $fields[] = "privileges";
+        $table = "access";
+        $fields[] = "access";
         $where["account"] = $account;
         $data = Database_Mysql::select($table,$fields,$where);
         if($data)
-            return $data[0]["privileges"];
+            return $data[0]["access"];
         else
             return false;
     }
