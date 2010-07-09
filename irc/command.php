@@ -26,20 +26,36 @@ class Irc_Command  {
      * @staticvar all $multiLineData Stores multiline data
     */
     public static $multiLineData;
+    /**
+     * Stores Command Errors
+     *
+     * @access public
+     * @staticvar string $commandError Stores Command Errors
+    */
+    public static $commandError;
     
-    
-    protected function getCommandCode($command){
-    $query =    "SELECT commands.code
+    protected function execCommand($command){
+        self::$commandError = null;
+    $query =    "SELECT commands.bind
                 FROM `commands`
-                JOIN accounts ON commands.access >= accounts.privileges
+                JOIN accounts ON commands.access <= accounts.privileges
                 JOIN auth ON accounts.auth = auth.auth
                 WHERE auth.hostmask='".Irc_User::host()."' AND 
                 commands.command='".$command."'";
         $data = Database_Mysql::advancedSelect($query);
-        if($data["affectedRows"]== 0 ){
+        if($data["affectedRows"]== 0){
+            self::$commandError = '';
             return false;
         }
-        return $data[0]["code"];
+        $bind = $data[0]['bind'];
+        $file = "irc/commands/" . str_replace('.','/',$bind) . ".php";
+        if(file_exists($file)){
+            include($file);
+        } else {
+            self::$commandError = 'CommandFile not found';
+            return false;
+        }
+        return true;
     }
 
     protected function getCommandHelp($command){
@@ -66,11 +82,13 @@ class Irc_Command  {
         if ($percent == 100) {
             self::$params = $params;
             $executed = self::execCommand($closest);
-            
+            if(!$executed && self::$commandError = ''){
+                Irc_Format::log(self::$commandError,'ERROR');
+            }
         } elseif($percent >= 75) {
             if(Znc_User::getAccessFromHost(Irc_User::host()) > 200){
-                Irc_Socket::write("NOTICE " . Irc_User::nick() . " :Command not found, but perhaps you mean " . $closest . "?");                
-            }
+                Irc_Socket::noticeNick("Command not found, but perhaps you mean " . $closest . "?");                
+            }   
         }
     }
     
