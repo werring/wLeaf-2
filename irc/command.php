@@ -73,11 +73,14 @@ class Irc_Command  {
     }
 
     public function handleCommand($command,$params=null){
-        $data = Database_Mysql::select("commands",array("command"));
+        $data = Database_Mysql::select("commands",array("command","bind"));
         foreach ($data as $key => $value){
             $data[$key] = $value['command'];
+            $bind[$key] = $value['bind'];
         }
         $closest = Irc_Format::closest_word($command,$data,$percent);
+        $key = array_search($closest,$data);
+        $bind = $bind[$key];
         $percent = round($percent * 100, 2);
         if ($percent == 100) {
             self::$params = $params;
@@ -85,7 +88,7 @@ class Irc_Command  {
             if(!$executed && self::$commandError = ''){
                 Irc_Format::log(self::$commandError,'ERROR');
             } else {
-                Irc_Format::log("Command " . $closest . " executed","NOTICE");
+                Irc_Format::log("Command " . $bind . " executed","NOTICE");
             }
         } elseif($percent >= 50) {
             if(Znc_User::getAccessFromHost(Irc_User::host(),Irc_User::ident()) > 200){
