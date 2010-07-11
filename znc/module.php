@@ -4,7 +4,16 @@
  */
 
 class Znc_Module  {
+    /**
+     * setting stores a znc setting
+     * @staticvar array
+     * @access public
+    */
     public static $setting;
+    
+    /**
+     * handles text from znc odules
+    */
     public function handle(){
         switch(Irc_User::ident()){
             case "blockuser":

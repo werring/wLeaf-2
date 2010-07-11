@@ -8,7 +8,10 @@ class WleafConfig {
     protected static $config = Array();
     protected static $settings = Array();
     
-    
+    /**
+     * constructor
+     * imports the mysql sets into an array
+    */
     public function __construct() {
         if(!isset(self::$config["init"])){
             $table = "sets";
@@ -26,7 +29,13 @@ class WleafConfig {
             Irc_Format::log("config already loaded");
         }
     }
-    
+
+    /**
+     * returns the setting given as parameter
+     * @access public
+     * @param string $name name of the setting
+     * @return mixed setting or boolean false
+    */    
     public function getConf($name=null){
         if(null===$name){
             return false;
@@ -39,10 +48,23 @@ class WleafConfig {
         }
     }
     
+    /**
+     * returns all settings
+     * @access public
+     * @return array all settings stored in an array
+    */
     public function getSettings(){
         return self::$settings;
     }
     
+    /**
+     * set a setting to a new value
+     *
+     * @access public
+     * @param string $name name of the setting
+     * @param string $value value of the setting
+     * @return integer affected rows
+    */
     public function setConf($name=null,$value=null){
         if(isset(self::$settings[$name]) && $value != self::getConf($name)){
             $table = "sets";

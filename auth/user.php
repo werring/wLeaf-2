@@ -4,10 +4,11 @@
  */
 class Auth_User  {
     /**
-     * adds $auth & $host to the table "auth"
+     * adds $auth & $host to the table "IrcUserData"
      *
      * @param string $host hostname
      * @param string $auth authname
+     * @param string $ident ident
      * @access public
      * @return boolean success
     */
@@ -64,7 +65,7 @@ class Auth_User  {
     }
     
     /**
-     * get authname from host
+     * get authname from host and ident
      *
      * @access public
      * @param string $host hostname

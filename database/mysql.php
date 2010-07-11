@@ -251,7 +251,7 @@
         }
         
         /**
-         * removes lines from table
+         * removes row from table
          * 
          * @param string $table name of mysql table
          * @param array $where associative array of where clause
@@ -285,6 +285,7 @@
          * returns a select query
          *
          * @param string $query the select query
+         * @return array mysql output
         */
         public function advancedSelect($query){
             $result = self::sqlQry($query);

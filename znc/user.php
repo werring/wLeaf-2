@@ -4,10 +4,11 @@ class Znc_User  {
     /**
      * getAccountFromHost
      *
-     * Gets the accountname of a user by its host
+     * Gets the accountname of a user by its host  & ident
      *
      * @access public
      * @param string $host Hostname
+     * @param string $ident Ident
      * @return String/Boolean Boolean if false, else an String with the accountname
     */
     public function getAccountFromHost($host,$ident){
@@ -43,10 +44,11 @@ class Znc_User  {
     /**
      * getAccessFromHost
      *
-     * Gets the accesslevel of a user by its host
+     * Gets the accesslevel of a user by its host & ident
      *
      * @access public
      * @param string $host Hostname
+     * @param string $ident Ident
      * @return String/Boolean Boolean if false, else an String with the accesslevel (numeric)
     */
     public function getAccessFromHost($host,$ident){
