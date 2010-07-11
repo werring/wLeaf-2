@@ -35,7 +35,7 @@ if(!$error){
     
     Irc_Socket::write("ZNC *admin set password " . $account . " " . $password);
      
-    Irc_Socket::write("CS #tree add *" . $account . " 1");
+    Irc_Socket::write("CS #tree add *" . $auth . " 1");
     Irc_Socket::write("CS #tree voice " . $nick);
     
     Irc_Socket::sendText(Irc_Format::BOLD() . "Server:" . Irc_Format::BOLD() . " " . Irc_Format::UNDERLINED() ."user.znc.treefamily.nl" . Irc_Format::UNDERLINED() . " " . Irc_Format::BOLD() . "port:" . Irc_Format::BOLD() . "  6667 / +7776",$nick,1);
@@ -46,12 +46,14 @@ if(!$error){
     Irc_Socket::sendText(Irc_Format::BOLD() . "mIRC Commands:" . Irc_Format::BOLD() . " /server TreeZNC",$nick,1);
     
     $table = 'access';
+    $data = array();
     $data['account'] = $account;
     $data['auth']    = $auth;
     $data['access']  = 100;
     Database_Mysql::insert($table,$data);
-    Irc_Socket::noticeNick("Account created");
-    if(Znc_User::getAccessFromHost(Irc_User::host(),Irc_User::ident())>=400)
-        Irc_Socket::noticeNick("Account: " . $account . " Auth: " . $auth . " Password: " . $password);
+    Irc_Socket::noticeNick("Account " . $account . " created");
+    if(Znc_User::getAccessFromHost(Irc_User::host(),Irc_User::ident())>=400){
+        Irc_Socket::noticeNick(Irc_Format::BOLD() . "Account:" . Irc_Format::BOLD() . " " .  $account . " " . Irc_Format::BOLD() . "Auth:" . Irc_Format::BOLD() . " " .  $auth . " " . Irc_Format::BOLD() . "Password:" . Irc_Format::BOLD() . " " .  $password);
+    }
 }
 ?>
