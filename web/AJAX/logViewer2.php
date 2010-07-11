@@ -1,7 +1,9 @@
 <?php
 session_start();
 include("../include/functions.php");
-
+/**
+ * testversion of logViewer
+*/
 if($_SESSION['privileges'] < 3 && isset($_SESSION['privileges'])){
         $red = array();
     if($_SESSION['privileges']!= 0){

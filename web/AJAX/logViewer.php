@@ -2,21 +2,33 @@
 session_start();
 include("../include/functions.php");
 
-if($_SESSION['privileges'] < 3 && isset($_SESSION['privileges'])){
+/**
+ * parse log neatly for AJAX log parser
+*/
+if($_SESSION['access'] >= 200 && isset($_SESSION['access'])){
         $red = array();
-    if($_SESSION['privileges']!= 0){
+    if($_SESSION['access']< 400){
         $red[] = 'tree-admin';
         $red[] = 'werring-test';
     }
     $file = file_get_contents("/home/wleaf/wleafv2/wLeaf.log");
     $linesPre = explode("\n",$file);
     $maxLines = 150;
+    /**
+     * handle all lines
+    */
     foreach($linesPre as $lineNumber => $text){
+        /**
+         * search for this regex
+        */
         if(isset($_GET['search'])){
             if(1!=@preg_match("/".stripslashes($_GET['search']) ."/i",$text)){
                 continue;
             }
         }
+        /**
+         * echo all joined channels for easy searching
+        */
         if(1==preg_match("/:wLeaf!wLeaf@tree.user.OnlineGamesNet JOIN :#/i",$eText[4])){
             $chan = explode("#",$eText[4]);
             unset($chan[0]);
@@ -24,6 +36,11 @@ if($_SESSION['privileges'] < 3 && isset($_SESSION['privileges'])){
             echo $chan . PHP_EOL;
         }
         $eText = explode(":",$text,5);
+        /**
+         * don't show debug / notice / error if consoleview is disabled
+         * don't show input if it is disabled
+         * Show output only for selected channels
+        */
         switch(trim(strtolower($eText[0]))){
             case 'notice':
             case 'debug':

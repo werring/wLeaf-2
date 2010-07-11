@@ -1,15 +1,29 @@
 <?php
+/**
+ * functionfile for webinterface
+*/
+    /**
+     * make it include only, so no direct calls
+    */
     includeOnly();
-    
+
+    /**
+     * autoload classes
+    */
     function __autoload($class_name) {
         $class = strtolower(implode("/",explode("_",$class_name)). ".php");
         require_once "../" . $class;
     }
-    
+    /**
+     * die if not included
+    */
     function includeOnly(){
         if(__FILE__ === $_SERVER["SCRIPT_FILENAME"])
             die("not allowed");
     }
+    /**
+     * parse login form
+    */
     function loginform(){
         echo "<fieldset id='login'>" ;
         echo "\t<legend>Login</legend>" ;
@@ -20,7 +34,9 @@
         echo "\t</form>" ;
         echo "</fieldset>" ;
     }
-    
+    /**
+     * Set the session vars needed for the AJAX module
+    */
     function setSessionVars($data){
         foreach($data as $key => $value){
             switch($key){
@@ -38,21 +54,28 @@
         }
     }
     
+    /**
+     * returns name of your access level
+     * @return string acces name
+    */
     function access(){
         switch($_SESSION["privileges"] . "-"){
-            case 0 . "-":
+            case ($_SESSION["privileges"] >= 500):
+                return "Master";
+            break;
+            case ($_SESSION["privileges"] >= 400):
                 return "Admin";
             break;
-            case 1 . "-":
+            case ($_SESSION["privileges"] >= 300):
                 return "Helper";
             break;
-            case 2 . "-":
+            case ($_SESSION["privileges"] >= 200):
                 return "Trial";
             break;
-            case 3 . "-":
+            case ($_SESSION["privileges"] >= 100):
                 return "User";
             break;
-            case 4 . "-":
+            case ($_SESSION["privileges"] >= 0):
                 return "User (banned)";
             break;
             default:
@@ -70,7 +93,10 @@
         var_dump($arg);
         echo "</pre>";
     }
-    
+
+    /**
+     * parses the menu
+    */
     function menu(){
         echo "<div id='menu'><span>Menu</span>";
         echo "<ul>";
@@ -80,10 +106,7 @@
         echo "<li>";
         echo "<a href='profile.php'>Profile</a>";
         echo "</li>";
-/*      echo "<li>";
-        echo "<a href='profile.php'>Profile</a>";
-        echo "</li>";
-*/      echo "</ul>";
+        echo "</ul>";
         echo "</div>";
     }
 ?>

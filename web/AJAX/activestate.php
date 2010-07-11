@@ -1,5 +1,8 @@
 <?php
 session_start();
+/**
+ * returns string to check if bot is running
+*/
 if($_SESSION["privileges"] <= 3 && isset($_SESSION["privileges"])){
 $line = strlen(exec("top -n 1 -b -u wleaf | grep 'php'"));    
     if($line == 0){

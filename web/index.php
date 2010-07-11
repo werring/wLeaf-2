@@ -31,9 +31,9 @@
             }
         }
         if(count($login) == 2){
-            $query =    "SELECT AT.account,AT.password,accounts.privileges FROM `AT` 
-                        JOIN accounts 
-                        ON AT.account=accounts.account
+            $query =    "SELECT AT.account,AT.password,access.access FROM `AT` 
+                        JOIN access 
+                        ON AT.account=access.account
                         WHERE
                         `AT`.`account`='".$login['user']."'
                         AND
@@ -46,10 +46,10 @@
             echo count($login) . PHP_EOL;
         }        
     }
-    if($_SESSION['privileges'] <= 3 && isset($_SESSION['privileges'])){
-        $query =    "SELECT AT.account,AT.password,accounts.privileges FROM `AT` 
-                    JOIN accounts 
-                    ON AT.account=accounts.account
+    if($_SESSION['access'] <= 3 && isset($_SESSION['access'])){
+        $query =    "SELECT AT.account,AT.password,access.access FROM `AT` 
+                    JOIN access 
+                    ON AT.account=access.account
                     WHERE
                     `AT`.`account`='".$_SESSION['username']."'
                     AND
@@ -61,7 +61,7 @@
         echo "<h1>TreeZNC admin panel</h1>";
         echo "<div id='account'><a href='/profile.php'>";
         echo $_SESSION['username'] . "</a> - ";
-        echo  access() . " (" .$_SESSION['privileges'] . ")";
+        echo  access() . " (" .$_SESSION['access'] . ")";
         echo "</div>";
         menu();
         echo "<div id='activeState' /> </div>";
