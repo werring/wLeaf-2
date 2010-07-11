@@ -23,7 +23,7 @@
                     if($ok){
                         $data = array();
                         $data['bind'] = $bind;
-                        $data['command'] = Irc_Command::$params[0];
+                        $data['command'] = strtolower(Irc_Command::$params[0]);
                         $data['access'] = Irc_Command::$params[2];
                         Database_Mysql::insert("commands",$data);
                         Irc_Socket::noticeNick("Command '".$data['command']."' binded to " . $data['bind'] . " Access: " . $data['access']);
