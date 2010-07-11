@@ -1,35 +1,13 @@
 TODO
  + auth
- +--+- [DONE: ◆] save whois to database
- |  |  +--------------------------------+-------------------------------+
- |  |  | Table (auth)                   | referer: 1                    |
- |  |  +----------+-------------+------++----+---------+----------------+
- |  |  | Field    | Type        | Null | Key | Default | Extra          |
- |  |  +----------+-------------+------+-----+---------+----------------+
- |  |  | id       | int(11)     | NO   | PRI | NULL    | auto_increment |
- |  |  | hostmask | varchar(90) | NO   |     | NULL    |                |
- |  |  | auth     | varchar(20) | YES  |     | NULL    |                |
- |  |  | whois    | tinyint(1)  | NO   |     | NULL    |                |
- |  |  | time     | int(10)     | NO   |     | NULL    |                |
- |  `  +----------+-------------+------+-----+---------+----------------+
- +--+- [PRIO: ◆] get ZNC access level
- |  |  +----------------------------+-----------------------------+
- |  |  | Table (accounts)           | referer: 2                  |
- |  |  +------------+-------------+-+----+-----+----------+-------+
- |  |  | Field      | Type        | Null | Key | Default  | Extra |
- |  |  +------------+-------------+------+-----+----------+-------+
- |  |  | id         | int(11)     | NO   | PRI | NULL     |       |
- |  |  | account    | varchar(50) | NO   |     | NULL     |       |
- |  |  | authname   | varchar(50) | NO   |     | NULL     |       |
- |  |  | creator    | varchar(50) | NO   |     | NULL     |       |
- |  |  | privileges | int(11)     | NO   |     | NULL     |       |
- |  `  +------------+-------------+------+-----+----------+-------+
+ +---- [DONE: ◆] save whois to database
+ +---- [DONE: ◆] get ZNC access level
  + ZNC
- +---- [PRIO: ◆] addUser
- +---- [PRIO: ◆] delUser
- +---- [PRIO: ◆] blockUser
- +---- [PRIO: ◆] unblockUser
- +---- [PRIO: ◆] renameUser
+ +---- [PRIO: +] addUser
+ +---- [PRIO: +] delUser
+ +---- [PRIO: +] blockUser
+ +---- [PRIO: +] unblockUser
+ +---- [PRIO: +] renameUser
  +---- [PRIO: -] addHelper
  +---- [PRIO: -] delHelper
  +---- [PRIO: -] suspendHelper
