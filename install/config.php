@@ -12,4 +12,6 @@
 
  $master['auth']       = 'Werring';               //authname of master
  $master['account']    = 'Werring';               //ZNC accountname of master
+ 
+ $znc['znc.conf'] = 'znc.conf';
 ?>
