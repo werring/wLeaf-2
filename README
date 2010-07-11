@@ -20,10 +20,12 @@ Overview
 -----------
 2. Start up
 -----------
- - type ./start.sh
- 
+ - type ./start.sh or nohup ./start.sh > output.log &
+
 ----------------
 3. Modifications
 ----------------
  - To add commands place them in ./irc/commands/
  - Then run ./install/installcommands.php
+ - To import your znc users from znc.conf edit the config.php file for the correct data
+ - Then run the file in ./install/addzncusers.php
