@@ -13,6 +13,8 @@
             }
         }
     }
+    $string = "Bind%sCommand%sAccess";
+        Irc_Socket::noticeNick(sprintf($string,str_repeat(" ",($lengths['bind']-strlen("Bind")+3)),str_repeat(" ",($lengths['command']-strlen("Command")+3))));
     foreach($binds as $key => $bind){
         $string = $bind['bind'] . "%s" . $bind['command'] . "%s" . $bind['access'];
         if(strlen($string)>4){
