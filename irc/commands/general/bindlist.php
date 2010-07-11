@@ -1,4 +1,8 @@
 <?php
+/**
+ * returns a list with all binds
+ * @todo only list commands that match a given param
+*/
     $select[] = "*";
     $order['bind'] = 'ASC';
     $order['command'] = 'ASC';

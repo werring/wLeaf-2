@@ -74,19 +74,30 @@ class Irc_Format {
         return trim($name) . ",";
     }
     
-    
+    /**
+     * returns the irc BOLD character (0x2)
+    */
     public function BOLD(){
         return chr(0x2);
     
     }
+    /**
+     * returns the irc UNDERLINED character (0x1F)
+    */
     public function UNDERLINED(){
         return chr(0x1F);
     
     }
+    /**
+     * returns the irc REVERSED / ITALIC character (0x16)
+    */
     public function REVERSED(){
         return chr(0x16);
     
     }
+    /**
+     * returns the irc NORMAL character (0x0F)
+    */
     public function NORMAL(){
         return chr(0x0F);
     }

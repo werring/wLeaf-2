@@ -91,7 +91,25 @@ class Irc_Socket {
     */
     public function noticeNick($text){
         self::write("NOTICE " . Irc_User::nick() . " :" . $text);
-    }    
+    }
+    /**
+     * PRIVMSGs or NOTICEs to $location
+     * @access public
+     * @param string $text text to send
+     * @param string $location send text to
+     * @param int $sendAs (optional) send text as privmsg (0) or notice (1)
+    */
+    public function sendText($text,$location,$sendAs=0){
+        switch($sendAs){
+            case '1':
+                $protocol = "NOTICE";
+            break;
+            default:
+                $protocol = "PRIVMSG";
+            break;
+        }
+        self::write($protocol . " " . $location . " :" . $text);
+    }
     /**
      * closes the IRC connection
      *

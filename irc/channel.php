@@ -3,6 +3,10 @@
  * class Irc_Channel
  */
 class Irc_Channel  {
+    /**
+     * get channelname
+     * @return mixed channelname or boolean false
+    */
     public function getChan(){
         $chan = Irc_Socket::$eLine[3];
         if(preg_match("/^\#/",trim($chan))){
@@ -13,6 +17,7 @@ class Irc_Channel  {
                     return $line;
                 }
             }
+            return false;
         }
     }
 }

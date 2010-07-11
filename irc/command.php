@@ -121,9 +121,6 @@ class Irc_Command  {
         }
     }
     
-    public function naam(){
-        
-    }
     public function handleError($message="unknown error occured",$sendErrorReply=true){
         Irc_Format::log($message,"ERROR");
         if($sendErrorReply)

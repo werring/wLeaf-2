@@ -1,5 +1,10 @@
-<?php //bind blaat blaat.bla 400
-
+<?php
+/**
+ * bind a command to a commandfile
+ * @param command
+ * @param file (directory.file)
+ * @param access
+*/
         $maxAccess = Znc_User::getAccessFromHost(Irc_User::host(),Irc_User::Ident());
         $bind = Irc_Command::$params[1];
         $file = "irc/commands/" . str_replace('.','/',$bind) . ".php";

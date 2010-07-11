@@ -1,4 +1,8 @@
-<?php //unbind blaat
+<?php
+/**
+ * Removes the bind between a command and the commandfile
+ * @param command
+*/
     $command  = Irc_Command::$params[0];
     $myAccess = Znc_User::getAccessFromHost(Irc_User::host(),Irc_User::Ident());
 

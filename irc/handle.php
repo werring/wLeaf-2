@@ -190,6 +190,10 @@ class Irc_Handle {
         }
     }
     
+    /**
+     * handles incomming text / PRIVMSG (commands)
+     * @access protected
+    */
     protected function text(){
 	$command = Irc_Format::removeColon(Irc_Socket::$eLine[3]);
 	Irc_Command::$params = null;

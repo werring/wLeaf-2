@@ -1,4 +1,8 @@
 <?php
+    /**
+     * Grands op to user
+     * @params nick and/or channel
+    */
     switch(count(Irc_Command::$params) . ""){
         case '0':
             $chan = Irc_Channel::getChan();

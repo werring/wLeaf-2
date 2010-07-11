@@ -6,6 +6,11 @@
      * :Werring!Werring@Werring.teammanager.TanothNl PRIVMSG #werring :,test3
      */
     class Irc_User  {
+        /**
+         * nickname of user
+         * @access public
+         * @return mixed nickname of user or boolean false
+        */
         public function nick(){
             $protocol = self::protocol();
             switch($protocol){
@@ -22,6 +27,11 @@
             break;
             }
         }
+        /**
+         * hostname of user
+         * @access public
+         * @return mixed hostname of user or boolean false
+        */
         public function host(){
             $protocol = self::protocol();
             switch($protocol){
@@ -39,6 +49,11 @@
             }
         }
         
+        /**
+         * ident of user
+         * @access public
+         * @return mixed ident of user or boolean false
+        */
         public function ident(){
             $protocol = self::protocol();
             switch($protocol){
@@ -57,6 +72,11 @@
             }
         }
         
+        /**
+         * fullhost of user
+         * @access public
+         * @return mixed fullhost of user or boolean false
+        */
         public function fullHost(){
             $protocol = self::protocol();
             switch($protocol){
@@ -72,13 +92,18 @@
             break;
             }
         }
+        /**
+         * auth of user
+         * @access public
+         * @return mixed auth of user or boolean false
+        */
         public function auth(){
             $host = self::host();
-            $table = "auth";
+            $table = "IrcUserData";
             $fields[] = "auth";
-            $where["hostmask"] = $host;
+            $where["host"] = $host;
             $data = Database_Mysql::select($table,$fields,$where);
-            if($data["rowsAffected"]!=0) 
+            if($data["rowsAffected"]>0) 
                 return $data[0]["auth"];
             else 
                 return false;
@@ -86,21 +111,11 @@
         }
         
         
-        public function whoisAge($host = null){
-            if(is_null($host)){
-                $host = self::host();
-            }
-            $table = "auth";
-            $fields[] = "time";
-            $where["hostmask"] = $host;
-            $data = Database_Mysql::select($table,$fields,$where);
-            if($data["rowsAffected"]!=0) 
-                return $data[0]["time"];
-            else 
-                return 0;
-        }
-        
-        
+        /**
+         * nickname of user
+         * @access public
+         * @return mixed nickname of user or boolean false
+        */        
         public function protocol(){
             switch(strtoupper(Irc_Socket::$eLine[1])){
                 case "PRIVMSG":
