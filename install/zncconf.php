@@ -1,14 +1,20 @@
 <?php
-
+/**
+ * opens the ZNC config file
+*/
 $fp = fopen($znc['znc.conf'],'r');
 $page = fread($fp,filesize($znc['znc.conf']));
 fclose($fp);
 $lines = explode("\n",$page);
+/**
+ * run trough all lines
+*/
 foreach($lines as $linenumber => $line){
     $line = trim($line);
     $linenumber++;
     switch($line){
         case (preg_match("/^\w*\s*\=\s/",$line) && !$user):
+        //Global config lines
             $eLine = explode("=",$line);
             $value = trim($eLine[1]);
             $conf  = trim($eLine[0]);
@@ -25,15 +31,18 @@ foreach($lines as $linenumber => $line){
             }
         break;
         case (0!= preg_match("/^<User\s[a-zA-Z][a-zA-Z0-9_.@-]*>$/",$line)):
+        //User tag opens here
             $user = true;
             $uname = substr($line,6,strlen($line)-7);
             $zncConf['users'][] = $uname;
         break;
         case (0!= preg_match("/^<\/User>$/",$line)):
+        //User tag closes here
             $user = $chan = false;
             $uname = null;
         break;
         case (preg_match("/^\w*\s*\=\s/",$line) && $user == true && !$chan):
+        //User options
             $eLine = explode("=",$line);
             $value = trim($eLine[1]);
             $conf  = trim($eLine[0]);
@@ -50,11 +59,17 @@ foreach($lines as $linenumber => $line){
             }
         break;
         case (0!= preg_match("/^<Chan\s#[^(\s|,)]*>$/",$line) && $user == true):
+        //Chan tag opens here
             $chan = true;
             $channame = substr($line,6,strlen($line)-7);
             $zncConf['user'][$uname]['chans'][] = $channame;
         break;
+        case (0!= preg_match("/^<\/Chan>$/",$line)):
+        //Chan tag opens here
+            $chan = false;
+        break;
         case (preg_match("/^\w*\s*\=\s/",$line) && $user == true && $chan==true):
+        //Channel options
             $eLine = explode("=",$line);
             $value = trim($eLine[1]);
             $conf  = trim($eLine[0]);
@@ -70,11 +85,6 @@ foreach($lines as $linenumber => $line){
                 }
             }
         break;
-        case (0!= preg_match("/^<\/Chan>$/",$line)):
-            $chan = false;
-        break;
     }
 }
-
-
 ?>

@@ -1,13 +1,29 @@
 <?php
+/**
+ * import all required files
+*/
 require_once "config.php" ;
 require_once "../database/mysql.php" ;
 require_once "zncconf.php";
+/**
+ * open silent and none persistent database connection
+*/
 new Database_Mysql(true,false);
 echo 'Creating database IrcBot' . PHP_EOL;
+/**
+ * create database IrcBot if it doen't exists
+*/
 Database_Mysql::sqlQry('CREATE DATABASE IF NOT EXISTS `IrcBot`');
 sleep(1);
 Database_Mysql::sqlQry('use IrcBot');
 echo 'Creating table \'sets\'' . PHP_EOL;
+/**
+ * Creates table "set"
+ * @param unsigned interger(10) id primary key and auto_increment
+ * @param string(255) setting unique key
+ * @param string(2048) value
+ * @param string(255) setter
+*/
 Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`sets`
                             (
                                 `id` int(10) unsigned NOT NULL auto_increment,
@@ -19,6 +35,9 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`sets`
                             )'
                         );
 Database_Mysql::clear('sets');
+/**
+ * Inserts settings from config file in table
+*/
 foreach($settings as $set => $value){
     $insert['setting'] = $set;
     $insert['value'] = $value;
@@ -27,18 +46,29 @@ foreach($settings as $set => $value){
 }
 sleep(1);
 echo 'Creating table \'access\'' . PHP_EOL;
+/**
+ * Creates table "access"
+ * @param unsigned interger(10) id primary key and auto_increment
+ * @param string(255) account unique key
+ * @param int setter
+ * @param boolean banned
+*/
 Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`access`
                             (
                                 `id` int(10) unsigned NOT NULL auto_increment,
                                 `account` varchar(255) NOT NULL,
                                 `auth` varchar(255) NOT NULL,
                                 `access` int(10) NOT NULL,
+                                `banned` tinyint(1) NOT NULL,
                                 PRIMARY KEY  (`id`),
                                 UNIQUE KEY `account` (`account`)
                             )'
                         );
 $master['access'] = 500;
 Database_Mysql::clear('access');
+/**
+ * Inserts users into tablr
+*/
 Database_Mysql::insert("access",$master);
 echo "Inserting " . $master['account'] . " with an access of " . $master['access'] . PHP_EOL;
 foreach($zncConf['users'] as $key => $user){
@@ -63,6 +93,13 @@ foreach($zncConf['users'] as $key => $user){
 }
 sleep(1);
 echo 'Creating table \'commands\'' . PHP_EOL;
+/**
+ * Creates table "commands"
+ * @param unsigned interger(10) id primary key and auto_increment
+ * @param string(64) command unique key
+ * @param string(128) bind
+ * @param int access
+*/
 Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`commands`
                         (
                             `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -75,7 +112,9 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`commands`
                         )'
                       );
 Database_Mysql::clear('commands');
-
+/**
+ * Inserts known commands into table
+*/
 foreach(scandir('../irc/commands/') as $command){
     if(is_dir('../irc/commands/' . $command)){
         $dir = $command;
@@ -114,6 +153,13 @@ foreach(scandir('../irc/commands/') as $command){
 
 sleep(1);
 echo 'Creating table \'IrcUserData\'' . PHP_EOL;
+/**
+ * Creates table "set"
+ * @param unsigned interger(10) id primary key and auto_increment
+ * @param string(50) ident
+ * @param string(50) host
+ * @param string(50) auth
+*/
 Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`IrcUserData` ( 
                             `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
                             `ident` VARCHAR( 50 ) NOT NULL ,
@@ -122,4 +168,4 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`IrcUserData` (
                         )
                         ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci');
 
-echo "Installed" . PHP_EOL;
+echo "Done" . PHP_EOL;
