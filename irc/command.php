@@ -34,20 +34,24 @@ class Irc_Command  {
     */
     public static $commandError;
     
-    protected function execCommand($command){
-        self::$commandError = null;
-    $query =    "SELECT commands.bind
-                FROM `commands`
-                JOIN access ON commands.access <= access.access
-                JOIN IrcUserData ON IrcUserData.auth = access.auth
-                WHERE IrcUserData.host='".Irc_User::host()."' AND IrcUserData.ident='".Irc_User::ident()."' AND
-                commands.command='".$command."'";
-        $data = Database_Mysql::advancedSelect($query);
-        if($data["affectedRows"]== 0){
-            self::$commandError = '';
-            return false;
+    protected function execCommand($command,$raw = false){
+        if($raw === false){
+            self::$commandError = null;
+            $query =    "SELECT commands.bind
+                        FROM `commands`
+                        JOIN access ON commands.access <= access.access
+                        JOIN IrcUserData ON IrcUserData.auth = access.auth
+                        WHERE IrcUserData.host='".Irc_User::host()."' AND IrcUserData.ident='".Irc_User::ident()."' AND
+                        commands.command='".$command."'";
+            $data = Database_Mysql::advancedSelect($query);
+            if($data["affectedRows"]== 0){
+                self::$commandError = '';
+                return false;
+            }
+            $bind = $data[0]['bind'];
+        } else {
+            $bind = array_shift(self::$params);
         }
-        $bind = $data[0]['bind'];
         $file = "irc/commands/" . str_replace('.','/',$bind) . ".php";
         if(file_exists($file)){
             include($file);
@@ -56,6 +60,7 @@ class Irc_Command  {
             self::$commandError = 'CommandFile not found';
             return false;
         }
+
     }
 
     protected function getCommandHelp($command){
@@ -73,18 +78,28 @@ class Irc_Command  {
     }
 
     public function handleCommand($command,$params=null){
-        $data = Database_Mysql::select("commands",array("command","bind"));
-        foreach ($data as $key => $value){
-            $data[$key] = $value['command'];
-            $bind[$key] = $value['bind'];
+        if($command != 'command'){
+            $data = Database_Mysql::select("commands",array("command","bind"));
+            foreach ($data as $key => $value){
+                $data[$key] = $value['command'];
+                $bind[$key] = $value['bind'];
+            }
+            $closest = Irc_Format::closest_word(strtolower($command),$data,$percent);
+            $key = array_search($closest,$data);
+            $bind = $bind[$key];
+            $percent = round($percent * 100, 2);
+            $raw = false;
+        } else {
+            if(Znc_User::getAccessFromHost(Irc_User::host(),Irc_User::ident())>=500){
+                $closest = "command";
+                $bind = $params[0];
+                $raw = true;
+                $percent = 100;
+            }
         }
-        $closest = Irc_Format::closest_word($command,$data,$percent);
-        $key = array_search($closest,$data);
-        $bind = $bind[$key];
-        $percent = round($percent * 100, 2);
         if ($percent == 100) {
             self::$params = $params;
-            $executed = self::execCommand($closest);
+            $executed = self::execCommand($closest,$raw);
             if(!$executed && self::$commandError = ''){
                 Irc_Format::log(self::$commandError,'ERROR');
             } else {
@@ -96,7 +111,6 @@ class Irc_Command  {
             }   
         }
     }
-    
     public function handleMultiLineCommand(){
         if(preg_match("/^\+\-/",Irc_Socket::$eLine[0])){
             if(!isset(self::$multiLineData["pluscounter"])){
@@ -110,7 +124,6 @@ class Irc_Command  {
     public function naam(){
         
     }
-    
     public function handleError($message="unknown error occured",$sendErrorReply=true){
         Irc_Format::log($message,"ERROR");
         if($sendErrorReply)
