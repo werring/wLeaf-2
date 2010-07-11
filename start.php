@@ -6,7 +6,7 @@
  * 
  * @author Werring <thomwerring@gmail.com>
  * @copyright Copyright © 2010, Thom Werring
- * @version 2.0.0
+ * @version 2.1.0
 */
 
 
@@ -25,7 +25,7 @@ function __autoload($class_name) {
     require_once $class;
 }
 
-Irc_Format::log("Starting wLeaf v2.0.0");
+Irc_Format::log("Starting wLeaf v2.1.0");
 do {
     Irc_Format::log("init database");
     $sql = new Database_Mysql();
