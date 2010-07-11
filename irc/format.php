@@ -90,6 +90,15 @@ class Irc_Format {
     public function NORMAL(){
         return chr(0x0F);
     }
+    
+    /**
+     * returns an IRC color token with the specified color
+     *
+     * @access public
+     * @param integer $foreground (optional) foreground color (0-15)
+     * @param integer $background (optional) b coackgroundlor (0-15)
+     * @return
+    */
     public function COLOR($foreground=null,$background=null){
         $return = chr(0x03);
         if($foreground != null){
@@ -114,6 +123,16 @@ class Irc_Format {
         return $return;
     }
     
+    
+    /**
+     * returns closest word that is in the array, with, optionaly an percentage of the match
+     *
+     * @abstract public
+     * @param string $input word to be matched
+     * @param array $words array with words $input will be matched against
+     * @param integer $percent returns the percentage of the match
+     * @return string closest word it found in the array
+    */
     public function closest_word($input, $words, &$percent = null) {
         $shortest = -1;
         foreach ($words as $word) {
