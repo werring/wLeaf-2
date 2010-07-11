@@ -1,6 +1,7 @@
 <?php
-require_once("config.php");
-require_once("../database/mysql.php");
+require_once "config.php" ;
+require_once "../database/mysql.php" ;
+require_once "zncconf.php";
 new Database_Mysql(true,false);
 echo 'Creating database IrcBot' . PHP_EOL;
 Database_Mysql::sqlQry('CREATE DATABASE IF NOT EXISTS `IrcBot`');
@@ -39,7 +40,27 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`access`
 $master['access'] = 500;
 Database_Mysql::clear('access');
 Database_Mysql::insert("access",$master);
-
+echo "Inserting " . $master['account'] . " with an access of " . $master['access'] . PHP_EOL;
+foreach($zncConf['users'] as $key => $user){
+    unset($fields,$where,$select);
+    $fields[] = "*";
+    $where['account'] = $user;
+    $select = Database_Mysql::select('access',$fields,$where);
+    if($select['affectedRows'] == 1){
+        //case sensitive check
+        if($select[0]['account']==$user){
+            continue;
+        }
+    }
+    $data['account'] = $data['auth'] = $user;
+    if($zncConf['user'][$user]['Admin'] == "true"){
+        $data['access'] = 400;
+    } else {
+        $data['access'] = 100;
+    }
+    echo "Inserting " . $data['account'] . " with an access of " . $data['access'] . PHP_EOL;
+    Database_Mysql::insert('access',$data);
+}
 sleep(1);
 echo 'Creating table \'commands\'' . PHP_EOL;
 Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`commands`
