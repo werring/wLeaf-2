@@ -42,6 +42,25 @@ class Znc_User  {
             return false;
     }
     /**
+     * getAuthFromAccount
+     *
+     * Gets the auth of a user by its account
+     *
+     * @access public
+     * @param string $account account
+     * @return String/Boolean Boolean if false, else an String with the authname
+    */  
+    public function getAuthFromAccount($account){
+        $table = "access";
+        $fields[] = "auth";
+        $where["account"] = $account;
+        $data = Database_Mysql::select($table,$fields,$where);
+        if($data)
+            return $data[0]["auth"];
+        else
+            return false;
+    }
+    /**
      * getAccessFromHost
      *
      * Gets the accesslevel of a user by its host & ident
