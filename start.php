@@ -70,6 +70,7 @@ do {
          * Event handler
         */
         Irc_Handle::handle();
+        Znc_Module::cronjobDeleteAccounts();
     }
     if(!DEBUG && Irc_Socket::$reconnection){
         Irc_Format::log("Atempt to restart wLeaf");
