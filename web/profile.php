@@ -55,14 +55,15 @@
     }
     if($_SESSION['access'] >= 200 && isset($_SESSION['access'])){
         $query =    "SELECT AT.account,AT.password,access.access FROM `AT` 
-                    JOIN accounts 
+                    JOIN access 
                     ON AT.account=access.account
                     WHERE
                     `AT`.`account`='".$_SESSION['username']."'
                     AND
                     `AT`.`password`='".$_SESSION["password"]."'";
+        $data = array();
         $data = Database_Mysql::advancedSelect($query);
-        if($data["affectedRows"]==1){
+        if($data["affectedRows"]>0){
             setSessionVars($data[0]);
         } else {
             session_destroy();

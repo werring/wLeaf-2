@@ -46,7 +46,7 @@
             echo count($login) . PHP_EOL;
         }        
     }
-    if($_SESSION['access'] <= 3 && isset($_SESSION['access'])){
+    if($_SESSION['access'] > 100 && isset($_SESSION['access'])){
         $query =    "SELECT AT.account,AT.password,access.access FROM `AT` 
                     JOIN access 
                     ON AT.account=access.account

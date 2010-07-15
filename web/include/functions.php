@@ -59,23 +59,23 @@
      * @return string acces name
     */
     function access(){
-        switch($_SESSION["privileges"] . "-"){
-            case ($_SESSION["privileges"] >= 500):
+        switch($_SESSION["access"]){
+            case ($_SESSION["access"] >= 500):
                 return "Master";
             break;
-            case ($_SESSION["privileges"] >= 400):
+            case ($_SESSION["access"] >= 400 && $_SESSION["access"] < 500):
                 return "Admin";
             break;
-            case ($_SESSION["privileges"] >= 300):
+            case ($_SESSION["access"] >= 300 && $_SESSION["access"] < 400):
                 return "Helper";
             break;
-            case ($_SESSION["privileges"] >= 200):
+            case ($_SESSION["access"] >= 200 && $_SESSION["access"] < 300):
                 return "Trial";
             break;
-            case ($_SESSION["privileges"] >= 100):
+            case ($_SESSION["access"] >= 100 && $_SESSION["access"] < 200):
                 return "User";
             break;
-            case ($_SESSION["privileges"] >= 0):
+            case ($_SESSION["access"] >= 0 && $_SESSION["access"] < 100):
                 return "User (banned)";
             break;
             default:
