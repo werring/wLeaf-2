@@ -4,18 +4,21 @@ body{
     color: white;
     background-color: black;
 }
-span {
-    display: block;
-    width: 99%;
-    max-width:99%;
-    white-space: pre-wrap;
-}
 a {
     color: white;
     text-decoration: none;
 }
+th {
+    color: white; 
+}
 a:hover {
     text-decoration: underline;
+}
+#logView span {
+    display: block;
+    width: 99%;
+    max-width:99%;
+    white-space: pre-wrap;
 }
 #account {
     position:absolute;
@@ -190,3 +193,11 @@ a:hover {
     font-weight: bold;
 }
 
+.code {
+    font-family: monospace;
+    overflow-x: visible;
+    overflow-y: scroll;
+    height: 300px;
+    width: 99%;
+    word-wrap: normal;
+}
