@@ -20,7 +20,7 @@ switch($pCount){
     case '2':
         $nick    = Irc_Command::$params[0];
         $auth    = Irc_Command::$params[1];
-        $account = Irc_Command::$params[2];
+        $account = Irc_Command::$params[1];
     break;
     default:
         $nick    = Irc_Command::$params[0];
