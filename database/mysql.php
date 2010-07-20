@@ -167,7 +167,7 @@
                     if($field == "OR"){
                         continue;
                     }
-                    $WHERE .= "`" . $field . "`='" . $value ."'";
+                    $WHERE .= "`" . $field . "` LIKE '" . $value ."'";
                 }
                 $query .= $WHERE;
             }
@@ -232,7 +232,7 @@
                 if(strlen($WHERE) != 0){
                     $WHERE .= " AND ";
                 }
-                $WHERE .= "`" . $field . "`='" . $value ."'";
+                $WHERE .= "`" . $field . "` LIKE '" . $value ."'";
             }
             $query .= $WHERE;
             if(0 !== $limit){
@@ -267,7 +267,7 @@
                 if(strlen($WHERE) != 0){
                     $WHERE .= " AND ";
                 }
-                $WHERE .= "`" . $field . "`='" . $value ."'";
+                $WHERE .= "`" . $field . "` LIKE '" . $value ."'";
             }
             $query .= $WHERE;
             if(0 !== $limit){
