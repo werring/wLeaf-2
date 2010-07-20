@@ -34,6 +34,10 @@ if(!$error){
     Irc_Socket::write("ZNC *admin cloneuser clone " . $account);
     
     Irc_Socket::write("ZNC *admin set password " . $account . " " . $password);
+    Irc_Socket::write("ZNC *admin set ident " . $account . " " . $account);
+    Irc_Socket::write("ZNC *admin set RealName " . $account . " " . $auth . " ~ TreeZNC");
+    Irc_Socket::write("ZNC *admin set nick " . $account . " " . $nick);
+    Irc_Socket::write("ZNC *admin set altnick " . $account . " " . $nick . "`");
      
     Irc_Socket::write("CS #tree add *" . $auth . " 1");
     Irc_Socket::write("CS #tree voice " . $nick);
@@ -41,7 +45,7 @@ if(!$error){
     Irc_Socket::sendText(Irc_Format::BOLD() . "Server:" . Irc_Format::BOLD() . " " . Irc_Format::UNDERLINED() ."user.znc.treefamily.nl" . Irc_Format::UNDERLINED() . " " . Irc_Format::BOLD() . "port:" . Irc_Format::BOLD() . "  6667 / +7776",$nick,1);
     Irc_Socket::sendText(Irc_Format::BOLD() . "Username:" . Irc_Format::BOLD() . " " . $account . " " . Irc_Format::BOLD() . "password:" . Irc_Format::BOLD() . " " . $password,$nick,1);
     Irc_Socket::sendText(Irc_Format::BOLD() . "Webinterface:" . Irc_Format::BOLD() . " " . Irc_Format::UNDERLINED() ."http://user.znc.treefamily.nl" . Irc_Format::UNDERLINED(),$nick,1);
-    Irc_Socket::sendText(Irc_Format::BOLD() . "Commands:" . Irc_Format::BOLD() . " /as addmask *.znc.treefamily.nl",$nick,1);
+    Irc_Socket::sendText(Irc_Format::BOLD() . "Commands:" . Irc_Format::BOLD() . " /as addmask *@*.znc.treefamily.nl",$nick,1);
     Irc_Socket::sendText(Irc_Format::BOLD() . "mIRC Commands:" . Irc_Format::BOLD() . " /server -a user.znc.treefamily.nl -p 6667 -g TreeZNC -w " . $account . ":" . $password . " -d TreeZNC",$nick,1);
     Irc_Socket::sendText(Irc_Format::BOLD() . "mIRC Commands:" . Irc_Format::BOLD() . " /server TreeZNC",$nick,1);
     
