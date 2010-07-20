@@ -98,10 +98,10 @@
          * @return mixed auth of user or boolean false
         */
         public function auth(){
-            $host = self::host();
             $table = "IrcUserData";
             $fields[] = "auth";
-            $where["host"] = $host;
+            $where["host"] = self::host();
+            $where["ident"] = self::ident();
             $data = Database_Mysql::select($table,$fields,$where);
             if($data["rowsAffected"]>0) 
                 return $data[0]["auth"];
@@ -109,6 +109,7 @@
                 return false;
             
         }
+        
         
         
         /**
