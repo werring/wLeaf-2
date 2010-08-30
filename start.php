@@ -41,8 +41,8 @@ do {
      * sends user, nick and password lines
     */
     $socket->write("USER ".$config->getConf("ident")." ".$config->getConf("ident")." ".$config->getConf("server")." :".$config->getConf("realname"));
-    $socket->write("NICK ".$config->getConf("nick"));
     $socket->write("PASS ".$config->getConf("password"));
+    $socket->write("NICK ".$config->getConf("nick"));
     
     while(Irc_Socket::$connected){
         $time = time();
