@@ -112,7 +112,7 @@ class Irc_Format {
     */
     public function COLOR($foreground=null,$background=null){
         $return = chr(0x03);
-        if($foreground != null){
+        if(!is_null($foreground)){
             $foreground = $foreground%16;
             if($foreground < 10){
                 $return .= "0" . $foreground . ",";
@@ -120,10 +120,10 @@ class Irc_Format {
                 $return .= $foreground . ",";
             } 
         }
-        if($background != null && $foreground == null){
+        if(!is_null($background) && is_null($foreground)){
             $return .= "01,";
         }
-        if($background != null){
+        if(!is_null($background)){
             $background = $background%16;
             if($background < 10){
                 $return .= "0" . $background;
