@@ -15,6 +15,8 @@ class Irc_Channel  {
             foreach(Irc_Socket::$eLine as $line){
                 if(preg_match("/^\#/",trim($line))){
                     return $line;
+                } elseif(preg_match("/^:\#/",trim($line))) {
+                    return substr($line,1);
                 }
             }
             return false;
