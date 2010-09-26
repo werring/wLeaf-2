@@ -28,6 +28,10 @@ switch($pCount){
         $account = Irc_Command::$params[2];
     break;
 }
+if(!preg_match('/^[a-zA-Z][a-zA-Z0-9_.@-]*$/',$account)){
+    $error = true;
+    Irc_Socket::noticeNick("Error, accountname is invalid");
+}
 
 if(!$error){
     $password = substr(base64_encode(uniqid()),0,8);
