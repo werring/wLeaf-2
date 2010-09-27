@@ -1,6 +1,6 @@
 <?php
     /**
-     * Grands op to user
+     * Grands voice to user
      * @params nick and/or channel
     */
     switch(count(Irc_Command::$params) . ""){
