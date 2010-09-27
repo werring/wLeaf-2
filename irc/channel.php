@@ -22,5 +22,19 @@ class Irc_Channel  {
             return false;
         }
     }
+    /**
+     * check if input is a channel
+     * @access public
+     * @param (String) $chan string to be checked if it is a channel
+     * @return (Boolean) returns true false on given query
+    */
+    public function isChan($chan){
+        if(preg_match("/^\#[^,\s]*/",trim($chan))){
+            return true;
+        } else {
+            return false;
+        }
+    
+    }
 }
 ?>
