@@ -26,7 +26,6 @@ function __autoload($class_name) {
 }
 
 Irc_Format::log("Starting wLeaf v2.1.0");
-do {
     Irc_Format::log("init database");
     $sql = new Database_Mysql();
     $sql->clear("IrcUserData");
@@ -75,6 +74,5 @@ do {
     if(!DEBUG && Irc_Socket::$reconnection){
         Irc_Format::log("Atempt to restart wLeaf");
     }
-} while(!DEBUG && Irc_Socket::$reconnection);
 
 ?>
