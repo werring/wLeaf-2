@@ -1,7 +1,6 @@
 TODO
- + auth
- +---- [DONE: ◆] save whois to database
- +---- [DONE: ◆] get ZNC access level
+ + IMPORTANT
+ +---- [PRIO: +] Merge databases
  + ZNC
  +---- [PRIO: +] addUser
  +---- [PRIO: +] delUser
@@ -12,3 +11,6 @@ TODO
  +---- [PRIO: -] delHelper
  +---- [PRIO: -] suspendHelper
  +---- [PRIO: -] unsuspendHelper
+ + Channel
+ +---- [PRIO: +] IAL
+ +---- [PRIO: -] Kick
