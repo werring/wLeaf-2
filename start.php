@@ -26,12 +26,12 @@ function __autoload($class_name) {
 }
 
 Irc_Format::log("Starting wLeaf v2.1.0");
-Irc_Format::log("init database");
+Irc_Format::log("database","INIT");
 $sql = new Database_Mysql();
 $sql->clear("IrcUserData");
-Irc_Format::log("init configuration");
+Irc_Format::log("configuration","INIT");
 $config = new WleafConfig();
-Irc_Format::log("init irc connection");
+Irc_Format::log("irc connection","INIT");
 $socket = new Irc_Socket();
 
 /**
