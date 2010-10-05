@@ -69,20 +69,20 @@ class Irc_Handle {
                     break;
 		case "JOIN":
 		    Irc_Socket::write("WHOIS " . Irc_User::nick() . " " . Irc_User::nick());
-		    if(strtolower(Irc_Channel::getChan()) == "#tree-support"){
+		    /*if(strtolower(Irc_Channel::getChan()) == "#tree-support"){
 			if(Znc_User::getAccessFromHost(Irc_User::host(),Irc_User::ident()) < 200){
 			    self::$supportIdlers++;
 			    Irc_Socket::sendText("Hi " . Irc_User::nick() . ", Please type /msg TreeServ <your question> to have create a support ticket",Irc_Channel::getChan());
 			    Irc_Socket::sendText(Irc_User::fullHost() . " joined #tree-support, there are now " . self::$supportIdlers . " ",WleafConfig::getConf("teamChan"));
 			}
-		    }
+		    }*/
 		break;
 		case "PART":
-		    if(strtolower(Irc_Channel::getChan()) == "#tree-support"){
+		    /*if(strtolower(Irc_Channel::getChan()) == "#tree-support"){
 			self::$supportIdlers--;
 		    } else {
 			Irc_Format::log(Irc_Channel::getChan(),"DEBUG");
-		    }
+		    }*/
 		break;
                 }
             }
