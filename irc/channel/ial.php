@@ -89,12 +89,13 @@
                 $where['channel'] = $channel;
                 $where['network'] = self::$network;
                 $order['nick']    = "ASC";
-                $data             = Database_Mysql::select('InternalAdressList',$fields,$where,0,0,$order);
+                $data             = Database_Mysql::select('InternalAdressList',$select,$where,0,0,$order);
                 foreach($data as $key => $row){
                     if(is_numeric($key)){
                         $return[] = $row['nick'] . "!" . $row['ident'] . "@" . $row['host'];
                     }
                 }
+                return $return;
             } else {
                 return false;
             }
