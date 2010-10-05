@@ -70,7 +70,7 @@ while(Irc_Socket::$connected){
     /**
      * Event handler
     */
-    
+    Irc_Channel_IAL::handle();
     Irc_Handle::handle();
     Znc_Module::cronjobDeleteAccounts();
 }
