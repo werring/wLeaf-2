@@ -29,6 +29,7 @@ Irc_Format::log("Starting wLeaf v2.1.0");
 Irc_Format::log("database","INIT");
 $sql = new Database_Mysql();
 $sql->clear("IrcUserData");
+$sql->clear("InternalAdressList");
 Irc_Format::log("configuration","INIT");
 $config = new WleafConfig();
 Irc_Format::log("irc connection","INIT");
