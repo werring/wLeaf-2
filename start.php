@@ -33,6 +33,8 @@ Irc_Format::log("configuration","INIT");
 $config = new WleafConfig();
 Irc_Format::log("irc connection","INIT");
 $socket = new Irc_Socket();
+Irc_Format::log("Internal Adress List", "INIT");
+$ial = new Irc_Channel_IAL($config->getConf('network'));
 
 /**
  * IRC startup 
@@ -68,11 +70,9 @@ while(Irc_Socket::$connected){
     /**
      * Event handler
     */
+    
     Irc_Handle::handle();
     Znc_Module::cronjobDeleteAccounts();
-}
-if(!DEBUG && Irc_Socket::$reconnection){
-    Irc_Format::log("Atempt to restart wLeaf");
 }
 
 ?>
