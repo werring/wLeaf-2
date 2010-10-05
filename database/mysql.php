@@ -146,11 +146,11 @@
          * @return array result of query only if $returnQuery is false
          * @return string only if $returnQuery is true
         */
-        public function select($table,$fields,$where=null,$limit=0,$first=0,$order=null,$returnQuery=false){
-            if(is_array($fields)){
-                $select = implode(",",$fields);
+        public function select($table,$select,$where=null,$limit=0,$first=0,$order=null,$returnQuery=false){
+            if(is_array($select)){
+                $select = implode(",",$select);
             } else {
-                $select = $fields;
+                $select = $select;
             }
             $query = "SELECT " . $select . " FROM " . $table;
             if(null!==$where){
