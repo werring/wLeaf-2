@@ -167,5 +167,24 @@ Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`IrcUserData` (
                             `auth` VARCHAR( 50 ) NOT NULL
                         )
                         ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci');
-
+sleep(1);
+echo 'Creating table \'InternalAdressList\'' . PHP_EOL;
+/**
+ * Creates table "set"
+ * @param unsigned interger(10) id primary key and auto_increment
+ * @param string(50) network
+ * @param string(50) channel
+ * @param string(50) nick
+ * @param string(50) ident
+ * @param string(50) host
+*/
+Database_Mysql::sqlQry('CREATE TABLE IF NOT EXISTS `IrcBot`.`InternalAdressList` ( 
+                            `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+                            `network` VARCHAR( 50 ) NOT NULL ,
+                            `channel` VARCHAR( 50 ) NOT NULL ,
+                            `nick` VARCHAR( 50 ) NOT NULL,
+                            `ident` VARCHAR( 50 ) NOT NULL,
+                            `host` VARCHAR( 50 ) NOT NULL
+                        )
+                        ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci');
 echo "Done" . PHP_EOL;
