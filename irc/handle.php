@@ -73,7 +73,7 @@ class Irc_Handle {
 			if(Znc_User::getAccessFromHost(Irc_User::host(),Irc_User::ident()) < 200){
 			    self::$supportIdlers++;
 			    Irc_Socket::sendText("Hi " . Irc_User::nick() . ", Please type /msg TreeServ <your question> to have create a support ticket",Irc_Channel::getChan());
-			    Irc_Socket::sendText(Irc_User::fullHost() . " joined #tree-support, there are now " . self::$supportIdlers . " ");
+			    Irc_Socket::sendText(Irc_User::fullHost() . " joined #tree-support, there are now " . self::$supportIdlers . " ",WleafConfig::getConf("teamChan"));
 			}
 		    }
 		break;
