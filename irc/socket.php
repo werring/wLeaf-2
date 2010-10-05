@@ -40,22 +40,22 @@ class Irc_Socket {
     public function __construct() {
         if(null === self::$socket){
             if(!self::$socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP)) {
-                Irc_Format::log("Irc Connection ~ @1 " . socket_strerror(socket_last_error()) );
+                Irc_Format::log("Irc Connection ~ @1 " . socket_strerror(socket_last_error()),"INIT");
                 self::$reconnection = false;
                 self::$connected = DISCONNECTED;
             }
             if(!socket_bind(self::$socket,WleafConfig::getConf("bindHost"))) {
                 
-                Irc_Format::log(var_export(WleafConfig::getConf("bindHost"),true) . " Irc Connection ~ @2 " . socket_strerror(socket_last_error(self::$socket)));
+                Irc_Format::log(var_export(WleafConfig::getConf("bindHost"),true) . " Irc Connection ~ @2 " . socket_strerror(socket_last_error(self::$socket)),"INIT");
                 self::$reconnection = false;
                 self::$connected = DISCONNECTED;
             }
             if(!socket_connect(self::$socket,WleafConfig::getConf("server"),WleafConfig::getConf("port"))) {
-                Irc_Format::log("Irc Connection ~ @3 " . socket_strerror(socket_last_error(self::$socket)) );
+                Irc_Format::log("Irc Connection ~ @3 " . socket_strerror(socket_last_error(self::$socket)),"INIT");
                 self::$connected = DISCONNECTED;
             }
             self::$connected=CONNECTED;
-            Irc_Format::log("Irc Connection ~ Done");
+            Irc_Format::log("Irc Connection ~ Done","INIT");
         }
     }
     

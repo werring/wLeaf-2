@@ -36,7 +36,7 @@
                 self::start($keepAlive);
             } else {
                 if(!self::$silent)
-                    Irc_Format::log("MySQL ~ Already done");
+                    Irc_Format::log("MySQL ~ Already done","INIT");
             }
         }
         
@@ -56,11 +56,11 @@
             mysql_selectdb(self::$database,self::$sql);
             if(!self::$sql){
                 if(!self::$silent)
-                    Irc_Format::log("MySQL ~ Error: " . mysql_error(),"ERROR");
+                    Irc_Format::log("MySQL ~ Error: " . mysql_error(),"ERROR","INIT");
                 die();
             } else {
                 if(!self::$silent)
-                    Irc_Format::log("MySQL ~ Done");
+                    Irc_Format::log("MySQL ~ Done","INIT");
             }
         }
         /**

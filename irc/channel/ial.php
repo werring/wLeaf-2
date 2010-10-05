@@ -16,6 +16,7 @@
         public function __construct($network) {
             self::$network = $network;
             self::$networkDefined = true;
+            Irc_Format::log("IAL ~ done","INIT");
         }
         
         /**
@@ -114,7 +115,7 @@
                 return false;
             }
         }
-        public function handleIAL(){
+        public function handle(){
             if(self::$networkDefined){
                 switch(strtoupper(Irc_Socket::$eLine[1])){
                     case 'JOIN':

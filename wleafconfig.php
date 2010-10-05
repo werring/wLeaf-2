@@ -22,11 +22,11 @@ class WleafConfig {
                     self::$settings[$value["setting"]] = $value["value"];
                 }
             }
-            Irc_Format::log("Configuration ~ Done");
+            Irc_Format::log("Configuration ~ Done","INIT");
             self::$settings["startupTime"] = time();
             self::$config["init"] = true;
         } else {
-            Irc_Format::log("config already loaded");
+            Irc_Format::log("config already loaded","INIT");
         }
     }
 
