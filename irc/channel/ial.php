@@ -3,7 +3,7 @@
      * class IAL
      */
     
-    class IAL {
+    class Irc_Channel_IAL {
         
         static protected $network = null;
         static protected $networkDefined = false;
